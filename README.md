@@ -1,161 +1,156 @@
-# google-play-preflight-skills
+# play-preflight
 
-**Catch Google Play review blockers before submission.**
+**Catch Google Play release risks before you upload.**
 
-A Google Play review preflight skill for AI coding agents. Guides Claude Code, GitHub Copilot, Cursor, and other AI agents to scan your Android / Expo / React Native / Flutter project and produce a structured risk report — organized by Google Play policy area — before you submit to the Play Store.
+[![CI](https://github.com/masddffee/google-play-preflight-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/masddffee/google-play-preflight-skills/actions/workflows/ci.yml)
+[![MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[English](README.md) · [繁體中文](README.zh-TW.md)
 
-> **Disclaimer:** This skill identifies *likely* review blockers based on publicly available Google Play Developer Program Policies. It does **not** guarantee approval. Google Play policies change frequently — always verify against [official Google documentation](https://play.google.com/about/developer-content-policy/) before submitting.
+A runnable, local-first CLI and GitHub Action for Android, Expo, React Native and Flutter. Inspect build settings and manifests, attach file-level evidence, apply dated policy rules, and separate confirmed risks from questions only a human can answer.
 
----
+![Synthetic terminal demo](docs/demo.svg)
 
-## Why This Exists
+**No API key. No project code execution. No network during scans. No approval guarantee.**
 
-Google Play rejects or delays apps for predictable, policy-driven reasons. Most of them are detectable from code:
+## Try it
 
-| Common Rejection Cause | Detectable? |
-|------------------------|-------------|
-| targetSdkVersion too low | ✓ from build.gradle / app.json |
-| Missing account deletion mechanism | ✓ from auth code + UI search |
-| Advertising SDK not declared in Data Safety | ✓ from package.json / build.gradle |
-| "Contains ads" not declared in Play Console | ✓ from dependency detection |
-| Google Play Billing not used for IAP | ✓ from dependency check |
-| SMS/Call Log permissions used illegally | ✓ from AndroidManifest.xml |
-| Login-required app with no test credentials | ✓ from auth + UX pattern detection |
-| Debug signing in release build | ✓ from build config |
+Requires Node.js 22+ and Git. Install directly from this repository's v1 branch:
 
-This skill runs those checks automatically, before you spend time waiting for a rejection email.
-
----
-
-## Who It's For
-
-- **Android native developers** submitting to Google Play
-- **React Native / Expo developers** building Play Store apps
-- **Flutter developers** targeting Android
-- **AI-assisted development teams** using Claude Code, Cursor, Copilot, or similar tools
-- **Indie developers** who may not be familiar with all Play policy areas
-
----
-
-## Quick Start
-
-### Option 1: Claude Code (Recommended)
-
-Add this skill to your Claude Code project:
-
-```bash
-# From your project root
-npx skills add google-play-preflight-skills
+```sh
+npx --yes --package="github:masddffee/google-play-preflight-skills#v1" play-preflight scan .
 ```
 
-Or manually copy the skill file:
+Or clone and run without installing dependencies:
 
-```bash
-# Clone the repo
-git clone https://github.com/YOUR_USERNAME/google-play-preflight-skills.git
-
-# Copy the skill to your project's .claude/skills/ directory
-mkdir -p .claude/skills/google-play-review-preflight
-cp -r google-play-preflight-skills/skills/google-play-review-preflight/ .claude/skills/
+```sh
+git clone https://github.com/masddffee/google-play-preflight-skills.git
+cd google-play-preflight-skills
+node bin/play-preflight.js scan fixtures/expo-risk --as-of 2026-09-28
 ```
 
-Then in Claude Code:
+The synthetic risk fixture intentionally exits **1** with two blockers. This is a successful detection, not an installation failure. The package is distributed through GitHub; do not use an unverified bare `npx play-preflight` registry package. Pin a reviewed commit instead of the moving `v1` branch for reproducible production installs.
 
-```
-/google-play-review-preflight
-```
+## What you get
 
-Or paste the prompts from `skills/google-play-review-preflight/prompts/`.
+| Surface | Included in v1 |
+|---|---|
+| CLI | Local scan, configuration initialization, explicit policy-source check, predictable exit codes |
+| Evidence | Static configuration, caller-supplied merged manifest, or explicitly labeled developer attestation |
+| Policy | Dated target-API tables by device and submission type; Billing Library timeline; source links and review expiry |
+| Reports | Terminal, JSON, Markdown, standalone HTML and SARIF 2.1.0 |
+| CI | Reusable Node 24 Action, annotations, step summary, report paths and check counts |
+| Agent integration | Skill that invokes the CLI and keeps manual review separate |
 
-### Option 2: Copy-Paste Prompt (Any AI Agent)
+There are **20 check categories**, not 20 fully automated policy certifications. Some are deterministic configuration checks; some require artifacts or developer attestations; others deliberately remain UNKNOWN. [Read the rule catalog and limits](docs/rules.md).
 
-For a quick scan (5 minutes):
+## Scan → inspect → fix → rescan
 
-```
-Read AndroidManifest.xml, build.gradle (or app.json for Expo), and package.json.
-Check for these Google Play review blockers:
-1. targetSdkVersion meets current Play minimum (34+ as of 2025)
-2. No SMS/Call Log/Accessibility permissions declared
-3. Privacy policy URL present
-4. If Firebase/AdMob detected: flag Data Safety form as needing completion
-5. If IAP detected: verify Google Play Billing Library is used
-6. No debug keystore in release signing config
-7. If login detected: flag need for test credentials in Play Console
+```sh
+# Save JSON, Markdown, HTML and SARIF in one directory
+play-preflight scan ./mobile --output-dir .play-preflight
 
-For each issue found: Status (BLOCKER/WARNING/PASS), Evidence, File:Line, Suggested Fix.
-```
+# Use the merged release manifest from your own trusted build
+play-preflight scan ./mobile --manifest android/app/build/intermediates/merged_manifests/release/processReleaseManifest/AndroidManifest.xml
 
-For a full audit, see [`skills/google-play-review-preflight/prompts/full-audit.md`](skills/google-play-review-preflight/prompts/full-audit.md).
+# Fail a release gate on blockers, warnings OR unknowns
+play-preflight scan ./mobile --fail-on unknown
 
----
-
-## What Gets Checked
-
-### 7 Policy Categories, 35+ Individual Checks
-
-| # | Category | Key Checks |
-|---|----------|-----------|
-| 1 | [Privacy & Data Safety](skills/google-play-review-preflight/checklists/01-privacy-data-safety.md) | Privacy policy URL, Data Safety form, account deletion, unnecessary data collection |
-| 2 | [Store Listing & Metadata](skills/google-play-review-preflight/checklists/02-store-listing.md) | Keyword spam, misleading claims, impersonation, minimum functionality |
-| 3 | [Content Declarations](skills/google-play-review-preflight/checklists/03-content-declarations.md) | Content rating, target audience, ads declaration, UGC moderation, restricted categories |
-| 4 | [Monetization & Subscriptions](skills/google-play-review-preflight/checklists/04-monetization-subscriptions.md) | Play Billing Library, subscription disclosure, dark patterns, restore purchases |
-| 5 | [Sensitive Permissions](skills/google-play-review-preflight/checklists/05-sensitive-permissions.md) | SMS/Call Log, Accessibility Service, location precision, prominent disclosure, VPN |
-| 6 | [Technical Quality](skills/google-play-review-preflight/checklists/06-technical-quality.md) | Target SDK, 64-bit support, placeholder API keys, App Bundle, signing config |
-| 7 | [Restricted Access](skills/google-play-review-preflight/checklists/07-restricted-access.md) | Test credentials, debug mode, side-loading, fake system UI |
-
-### Output Per Check
-
-Every finding includes:
-
-```
-| Status   | BLOCKER / WARNING / PASS                        |
-| Evidence | What was found (or not found) in the code       |
-| File     | File path and line number                        |
-| Fix      | Concrete action to resolve the issue             |
-| Ref      | Link to official Google Play policy page         |
+# Machine-readable output; stdout is JSON only
+play-preflight scan ./mobile --format json
 ```
 
----
+Manifest output paths vary by Android Gradle Plugin and build variant. Pass the actual path from your build, not a guessed path. Source scans do **not** build the app or resolve arbitrary Gradle/Expo code.
 
-## Supported Tech Stacks
+### Read the status correctly
 
-| Stack | Manifest Location | Config File |
-|-------|------------------|-------------|
-| Android Native | `AndroidManifest.xml` | `build.gradle` / `build.gradle.kts` |
-| React Native | `android/app/src/main/AndroidManifest.xml` | `package.json` |
-| Expo (managed) | `app.json` / `app.config.js` | `eas.json` |
-| Flutter | `android/app/src/main/AndroidManifest.xml` | `pubspec.yaml` |
+| Status | Meaning |
+|---|---|
+| BLOCKER | A concrete violated check or an explicitly declared missing requirement; not a prediction of Google's verdict |
+| WARNING | A likely configuration risk or maintenance issue; investigate |
+| UNKNOWN | Required context, resolved artifacts or manual verification is missing |
+| PASS | Only the stated check is satisfied by the evidence shown; attestations remain unverified |
+| SKIP | Not applicable under the supplied context |
 
----
+Default exit behavior fails on BLOCKER only. `--fail-on warning` also fails on warnings; `--fail-on unknown` also fails on unknowns; `--fail-on none` always returns 0 **for a completed scan**, never for invalid inputs. Exit **2** means an operational/configuration error.
 
-## Limitations
+## GitHub Action
 
-- **Code analysis only**: Play Console form completeness (Data Safety, content rating, etc.) must be verified manually.
-- **No runtime testing**: Cannot detect crashes, UI layout issues, or runtime behavior.
-- **Policy drift**: Google Play policies change. This skill reflects policies as of the last update — always check current official docs.
-- **False positives**: SDK detection is dependency-based; some findings may not apply to your specific SDK usage.
-- **No Play Console API**: This skill does not connect to Play Console, Play Developer API, or any Google service.
+```yaml
+name: Google Play preflight
+on: [pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: masddffee/google-play-preflight-skills@v1
+        id: preflight
+        with:
+          path: .
+          fail-on: blocker
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: play-preflight-report
+          path: .play-preflight/
+          include-hidden-files: true
+```
 
----
+Pin this Action to a reviewed full commit SHA for production. It needs no API token. Reports are written before the failure threshold is applied, so failures still produce artifacts. [Inputs, outputs, monorepos and SARIF](docs/github-action.md).
 
-## Disclaimer
+## Tell it what source code cannot prove
 
-This project is not affiliated with, endorsed by, or sponsored by Google LLC. "Google Play" and "Android" are trademarks of Google LLC.
+```sh
+play-preflight init .
+```
 
-This skill identifies likely review risks based on static code analysis against publicly available [Google Play Developer Program Policies](https://play.google.com/about/developer-content-policy/). It **does not** guarantee Play Store approval, and must not be used to circumvent Google Play policies.
+`.play-preflight.json` contains non-secret context. Omit unknown values instead of inventing `true` declarations:
 
----
+```json
+{
+  "device": "mobile",
+  "submission": "new",
+  "accountCreation": true,
+  "accountDeletionInApp": false,
+  "digitalGoods": true,
+  "markets": ["US", "TW"]
+}
+```
 
-## Contributing
+The example deliberately declares a missing account-deletion flow and therefore blocks. Do not put passwords, test credentials, API keys or signing material here. [Full configuration reference](docs/configuration.md).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Policy updates and new checks are especially welcome.
+## Use with coding agents
 
-## License
+```sh
+npx skills add masddffee/google-play-preflight-skills --skill google-play-review-preflight
+```
 
-MIT — see [LICENSE](LICENSE).
+The skill calls the CLI, reads its evidence, proposes minimal changes and rescans. It never silently changes UNKNOWN to PASS. For manual installation, copy the complete `skills/google-play-review-preflight` directory into your agent's skill directory. The skill's operational instructions are self-contained; the CLI is installed separately from this repository.
 
----
+## Policy maintenance and limitations
 
-## GitHub Topics
+Snapshot: **2026-09-28**. Scheduled source checks look for reachability and selected policy phrases; they do **not** automatically approve policy changes. A snapshot past its review date cannot yield a target-API PASS.
 
-`google-play` · `android` · `play-console` · `app-review` · `ai-agent` · `claude-code` · `react-native` · `expo` · `flutter` · `data-safety` · `preflight`
+```sh
+play-preflight policy check
+play-preflight policy check --online --format json
+```
+
+No Play Console API integration, runtime testing, AAB/ELF inspection, full Gradle interpreter, automatic fixes, or approval prediction is included. A Billing SDK does not prove compliant payments, and Stripe is not automatically a blocker. Arbitrary Expo config, flavor overrides and unresolved dependencies require trusted build evidence. [Security model](SECURITY.md) · [Policy sources](rules/policy.json).
+
+## Reproduce the evidence
+
+```sh
+npm run check
+npm test
+npm run smoke
+npm run demo
+```
+
+Fixtures are synthetic, not real-world accuracy benchmarks. No false-positive rate, rejection-prevention rate, user count or third-party endorsement is claimed. [Testing and release notes](docs/validation.md) · [Contributing](CONTRIBUTING.md) · [Launch kit](docs/launch-kit.md).
+
+MIT licensed. Not affiliated with or endorsed by Google. This repository retains its original URL; `play-preflight` is the executable product name.

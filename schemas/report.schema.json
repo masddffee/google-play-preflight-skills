@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "play-preflight report v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "tool",
+    "asOf",
+    "policy",
+    "project",
+    "summary",
+    "findings",
+    "limitations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "tool": {
+      "type": "object"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "policy": {
+      "type": "object"
+    },
+    "project": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "BLOCKER",
+        "WARNING",
+        "PASS",
+        "UNKNOWN",
+        "SKIP"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "BLOCKER": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "WARNING": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "PASS": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "UNKNOWN": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "SKIP": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "ruleId",
+          "title",
+          "status",
+          "message",
+          "fix",
+          "source",
+          "evidence"
+        ],
+        "properties": {
+          "ruleId": {
+            "type": "string",
+            "pattern": "^GP-[A-Z]+-\\d{3}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "fix": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "BLOCKER",
+              "WARNING",
+              "PASS",
+              "UNKNOWN",
+              "SKIP"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "line",
+                "value",
+                "kind"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "line": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "number",
+                    "boolean"
+                  ]
+                },
+                "kind": {
+                  "enum": [
+                    "static",
+                    "artifact",
+                    "attestation"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Synthetic preflight fixture",
+    "slug": "preflight-fixture",
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "targetSdkVersion": 36
+          }
+        }
+      ]
+    ]
+  }
+}

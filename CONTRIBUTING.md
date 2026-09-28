@@ -1,88 +1,16 @@
-# Contributing to google-play-preflight-skills
+# Contributing
 
-Thank you for contributing. Policy-first, agent-skill-first contributions are especially welcome.
+Use Node.js 22+. No runtime or test dependencies need to be installed.
 
----
-
-## What to Contribute
-
-### High Value
-- **New checks** — when Google Play announces a new policy requirement
-- **Policy updates** — when an existing check references an outdated policy (include the current policy URL)
-- **Tech stack coverage** — Kotlin Multiplatform, Capacitor, .NET MAUI, or other Android targets
-- **False positive fixes** — when a check incorrectly flags valid code patterns
-- **New examples** — worked examples for specific app types (fintech, children's apps, games)
-
-### Lower Priority for This Repo
-- CLI tools, dashboard integrations, or Play Console API features (out of MVP scope)
-- General Android code quality checks not related to Play policy
-- Checks that duplicate existing Android lint rules
-
----
-
-## How to Add a New Check
-
-1. **Identify the policy** — find the official Google Play policy URL.
-2. **Determine the category** — choose the appropriate checklist file in `skills/google-play-review-preflight/checklists/`.
-3. **Write the check** using this template:
-
-```markdown
-## CHECK-XX-YY: [Short Check Name]
-
-**Severity:** BLOCKER | WARNING
-
-**What to look for:**
-[What the agent should scan for — be specific about file paths and patterns]
-
-**Evidence sources:**
-- `file/path` → what to look for in that file
-
-**Pass condition:** [When this check is PASS]
-
-**Blocker/Warning condition:** [When this triggers]
-
-**Suggested fix:**
-[Concrete, actionable fix — code snippet if helpful]
-
-**Official ref:** [https://play.google.com/... — must be an official Google URL]
+```sh
+npm run check
+npm test
+npm run smoke
+npm run demo
 ```
 
-4. **Update `references.md`** if the check references a new policy URL.
-5. **Add to SKILL.md checklist index** if creating a new category.
+A rule change needs a stable rule ID, an official source, a date/device/submission applicability explanation, a positive test, a negative test and an ambiguous-input test. Demonstrate the failure before fixing it. Explain whether evidence is static, an artifact, or an attestation. Never convert missing evidence to PASS or assume restricted permissions/payment SDKs are automatically forbidden.
 
----
+Policy updates belong in `rules/policy.json` with reviewed dates and boundary tests. The scheduled source watcher is a review signal, not an automatic policy editor. Do not update `reviewedOn` simply because a page returned HTTP 200. Recheck policy text and exceptions. Keep scoped limits in `docs/rules.md` and the self-contained skill aligned.
 
-## Policy Update Protocol
-
-When Google Play updates a policy:
-
-1. Open an issue with:
-   - Link to the official policy change or announcement
-   - Which checks are affected
-   - The updated requirement
-2. Update the relevant checklist file
-3. Update `references.md` with the new URL
-4. Update the version in `SKILL.md` frontmatter (bump patch version)
-5. Add an entry to `CHANGELOG.md`
-
----
-
-## Pull Request Guidelines
-
-- **One check or policy area per PR** — easier to review and cherry-pick
-- **Official references required** — every check must link to an official Google Play or Android developer documentation URL
-- **No guarantee language** — do not write that a check "ensures" or "guarantees" Play Store approval
-- **No policy circumvention** — do not add checks that help bypass or work around Google Play policies
-- **Test your changes** — run the skill against a real project (or the sample from `examples/`) and include the output in your PR description
-
----
-
-## Code of Conduct
-
-This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
-
----
-
-## Reporting Security Issues
-
-See [SECURITY.md](SECURITY.md).
+Fixtures must be synthetic or explicitly permitted and sanitized. Do not claim they establish real-world precision/recall. No invented testimonials, benchmarks or approval guarantees. File false-positive/negative issues with a minimal reproducible fixture, rule ID, CLI/policy version, app type, evaluation date and the official policy context.
