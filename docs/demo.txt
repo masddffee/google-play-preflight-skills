@@ -1,0 +1,21 @@
+play-preflight 1.0.0 | expo | 2026-09-28
+2 BLOCKER / 1 WARNING / 2 PASS / 15 UNKNOWN / 0 SKIP
+
+[BLOCKER] GP-TARGET-001 Target API
+  Observed target API 34; mobile/new requirement is 36 on 2026-09-28. Static configuration only; verify the built release.
+  app.json:10 (static)
+  Fix: Update the selected release target using current official requirements; rebuild and rescan the merged manifest.
+  https://support.google.com/googleplay/android-developer/answer/11926878?hl=en
+[BLOCKER] GP-ACCOUNT-001 Account deletion
+  Developer declares account creation but no in-app deletion request path.
+  .play-preflight.json:1 (attestation)
+  Fix: For applicable account-creating apps, verify both in-app and web deletion request paths, retention disclosures, and actual deletion.
+  https://support.google.com/googleplay/android-developer/answer/13327111?hl=en
+[WARNING] GP-RELEASE-001 Release artifact format
+  Selected EAS profile production explicitly builds APK, not AAB.
+  eas.json:1 (static)
+  Fix: New Play apps normally require an Android App Bundle; select and inspect the actual production AAB.
+  https://developer.android.com/guide/app-bundle
+
+15 checks require additional evidence. Use --format markdown or --output-dir .play-preflight for the complete report.
+PASS means the stated check only. It is not a guarantee of Google Play approval.

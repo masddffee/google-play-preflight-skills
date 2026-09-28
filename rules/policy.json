@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "version": "2026.09.28",
+  "reviewedOn": "2026-09-28",
+  "reviewAfter": "2026-12-27",
+  "notes": "Reviewed source snapshot, not a live Google policy feed. Source checks detect selected text changes; they do not approve new policy automatically.",
+  "sources": {
+    "targetApi": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/11926878?hl=en",
+      "checks": [
+        "August 31, 2026",
+        "API level 36",
+        "November 1, 2026"
+      ]
+    },
+    "billingVersion": {
+      "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+      "checks": [
+        "August 31, 2026",
+        "November 1, 2026",
+        "August 31, 2027"
+      ]
+    },
+    "payments": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/9858738?hl=en",
+      "checks": [
+        "Payments"
+      ]
+    },
+    "userData": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/10144311?hl=en",
+      "checks": [
+        "Privacy Policy"
+      ]
+    },
+    "dataSafety": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/10787469?hl=en",
+      "checks": [
+        "Data safety"
+      ]
+    },
+    "deletion": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/13327111?hl=en",
+      "checks": [
+        "deletion"
+      ]
+    },
+    "reviewAccess": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/9859455?hl=en",
+      "checks": [
+        "App access"
+      ]
+    },
+    "permissions": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/16558241?hl=en",
+      "checks": [
+        "Permissions"
+      ]
+    },
+    "pages": {
+      "url": "https://developer.android.com/guide/practices/page-sizes",
+      "checks": [
+        "16 KB"
+      ]
+    },
+    "native64": {
+      "url": "https://developer.android.com/google/play/requirements/64-bit",
+      "checks": [
+        "64-bit"
+      ]
+    },
+    "listing": {
+      "url": "https://support.google.com/googleplay/android-developer/answer/9859152?hl=en",
+      "checks": [
+        "30",
+        "80",
+        "4,000"
+      ]
+    },
+    "bundle": {
+      "url": "https://developer.android.com/guide/app-bundle",
+      "checks": [
+        "Android App Bundle"
+      ]
+    },
+    "debug": {
+      "url": "https://developer.android.com/guide/topics/manifest/application-element",
+      "checks": [
+        "debuggable"
+      ]
+    }
+  },
+  "targetApi": [
+    {
+      "from": "2025-08-31",
+      "submission": [
+        "new",
+        "update"
+      ],
+      "minimum": {
+        "mobile": 35,
+        "wear": 34,
+        "automotive": 34,
+        "tv": 34
+      }
+    },
+    {
+      "from": "2026-08-31",
+      "submission": [
+        "new",
+        "update"
+      ],
+      "minimum": {
+        "mobile": 36,
+        "wear": 35,
+        "automotive": 35,
+        "tv": 34,
+        "xr": 34
+      }
+    },
+    {
+      "from": "2026-08-31",
+      "submission": [
+        "existing"
+      ],
+      "minimum": {
+        "mobile": 35,
+        "wear": 34,
+        "automotive": 32,
+        "tv": 33,
+        "xr": 34
+      }
+    }
+  ],
+  "billing": [
+    {
+      "from": "2025-08-31",
+      "minimumMajor": 7
+    },
+    {
+      "from": "2026-08-31",
+      "minimumMajor": 8
+    },
+    {
+      "from": "2027-08-31",
+      "minimumMajor": 9
+    }
+  ]
+}

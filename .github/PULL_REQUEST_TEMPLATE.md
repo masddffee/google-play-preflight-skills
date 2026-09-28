@@ -1,35 +1,15 @@
 ## Summary
 
-<!-- What does this PR add or change? One paragraph. -->
+## Evidence boundary
+Describe static observations, supplied artifacts, manual context, and remaining UNKNOWNs. Do not imply Google approval.
 
-## Type of Change
-
-- [ ] New check (new CHECK-XX-YY)
-- [ ] Policy update (existing check updated to reflect policy change)
-- [ ] False positive fix (check refined to reduce incorrect flags)
-- [ ] New example / tech stack coverage
-- [ ] Documentation fix
-- [ ] Other
-
-## Checks Affected
-
-| Check ID | Before | After |
-|----------|--------|-------|
-| CHECK-XX-YY | old behavior | new behavior |
-
-## Official Reference
-
-<!-- Link to the official Google Play policy page that supports this change -->
-
-- [ ] This change references an official Google Play or Android developer documentation URL
+## Policy applicability
+For policy changes, include official sources, dates, devices, submission types, regions and exceptions.
 
 ## Validation
-
-- [ ] I have run this skill against a real or sample project and the finding is correct
-- [ ] The check does not claim to guarantee Play Store approval
-- [ ] No private information is included in examples or test output
-- [ ] All internal links in changed files resolve correctly
-
-## Related Issues
-
-Closes #
+- [ ] `npm run check`
+- [ ] `npm test`
+- [ ] `npm run smoke`
+- [ ] Positive, negative and ambiguous-input tests for rule changes
+- [ ] No credentials, raw private source, unsupported statistics or approval claims
+- [ ] Skill, CLI, examples and documentation agree

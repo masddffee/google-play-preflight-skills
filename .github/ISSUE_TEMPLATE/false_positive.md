@@ -1,34 +1,20 @@
 ---
-name: False Positive
-about: A check flagged an issue that does not actually apply to my project
-title: "[False Positive] CHECK-XX-YY: "
-labels: false-positive
-assignees: ''
+name: Incorrect finding
+about: Report a false positive, false negative, or misleading UNKNOWN/PASS
+title: '[Finding] GP-'
+labels: bug
 ---
 
-## Which Check Triggered
+## Finding
+- Rule ID:
+- Actual status:
+- Expected status and why:
+- Evidence type: static / artifact / attestation
+- CLI version, policy version, evaluation date:
+- Device / new submission / update / existing app:
 
-**Check ID:** CHECK-XX-YY
+## Minimal sanitized reproduction
+Provide only the files needed to reproduce the result. No tokens, credentials, keystores, customer data, or private app source.
 
-**Tech Stack:** Android Native / React Native / Expo / Flutter
-
----
-
-## What Happened
-
-**What the skill reported:**
-<!-- Paste the BLOCKER or WARNING finding -->
-
-**Why it is a false positive:**
-<!-- Explain why this does not apply to your project -->
-
-**Relevant code snippet (anonymized):**
-```
-<!-- Paste the relevant code that triggered the false positive -->
-```
-
----
-
-## Suggested Fix for the Skill
-
-<!-- Optional: how should the check be refined to avoid this false positive? -->
+## Policy context
+Link the current official requirement and applicable exception. Explain whether a merged release manifest or verified Console context changes the result.

@@ -1,0 +1,54 @@
+name: Play Preflight
+description: Check Google Play release risks with local evidence and dated policy rules.
+branding:
+  icon: shield
+  color: green
+inputs:
+  path:
+    description: App directory relative to the checked-out workspace.
+    default: '.'
+  fail-on:
+    description: Failure threshold (blocker, warning, unknown, none).
+    default: blocker
+  output-dir:
+    description: Report directory relative to the workspace.
+    default: .play-preflight
+  as-of:
+    description: Evaluation date in YYYY-MM-DD (defaults to today UTC).
+  device:
+    description: Device type; defaults to config or mobile.
+  submission:
+    description: Submission type; defaults to config or new.
+  manifest:
+    description: Caller-supplied merged release manifest relative to app directory.
+  config:
+    description: JSON context file relative to app directory.
+  profile:
+    description: EAS profile; defaults to config or production.
+  annotations:
+    description: Emit error and warning annotations.
+    default: 'true'
+outputs:
+  blockers:
+    description: Number of blocker checks.
+  warnings:
+    description: Number of warning checks.
+  passed:
+    description: Number of passed checks, including labeled attestations.
+  unknown:
+    description: Number of checks requiring more evidence.
+  skipped:
+    description: Number of non-applicable checks.
+  report-json:
+    description: Workspace-relative JSON report path.
+  report-markdown:
+    description: Workspace-relative Markdown report path.
+  report-html:
+    description: Workspace-relative HTML report path.
+  report-sarif:
+    description: Workspace-relative SARIF report path.
+  policy-version:
+    description: Bundled policy snapshot version.
+runs:
+  using: node24
+  main: action/index.js

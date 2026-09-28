@@ -1,0 +1,8 @@
+{
+  "device": "mobile",
+  "submission": "new",
+  "accountCreation": true,
+  "accountDeletionInApp": true,
+  "digitalGoods": true,
+  "accountDeletionUrl": "https://example.org/delete"
+}

@@ -1,41 +1,21 @@
 ---
-name: Bug Report
-about: Something in the skill, checklist, or documentation is broken or incorrect
-title: "[Bug] "
+name: Bug report
+about: CLI, Action, installation, or report behavior is incorrect
+title: '[Bug] '
 labels: bug
-assignees: ''
 ---
 
-## Describe the Bug
+## Expected and actual behavior
 
-<!-- A clear description of what is wrong -->
-
-**Affected file:**
-<!-- e.g., skills/google-play-review-preflight/checklists/01-privacy-data-safety.md -->
-
-**Affected check (if applicable):**
-<!-- e.g., CHECK-01-03 -->
-
----
-
-## Expected Behavior
-
-<!-- What the skill should do or say -->
-
-## Actual Behavior
-
-<!-- What the skill actually does or says -->
-
----
+## Reproduction
+Include the smallest sanitized fixture and exact command or Action inputs. Never include credentials, private source, or a real user's data.
 
 ## Environment
+- CLI version (`play-preflight --version`):
+- Policy version and evaluation date:
+- Node.js / operating system:
+- Android / Expo / React Native / Flutter:
+- CLI or Action commit:
 
-- **AI Agent:** Claude Code / Cursor / GitHub Copilot / Other
-- **Tech Stack:** Android Native / React Native / Expo / Flutter
-- **Skill version:** 0.1.0 (check CHANGELOG.md)
-
----
-
-## Additional Context
-
-<!-- Screenshots, audit output, or other relevant information -->
+## Evidence
+Attach relevant findings, exit code and an official reference when policy is involved. A missing input is not proof of a policy violation.

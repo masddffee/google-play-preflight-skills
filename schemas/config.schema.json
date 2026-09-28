@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "play-preflight context",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "dataSafetyReviewed": {
+      "type": "boolean"
+    },
+    "accountCreation": {
+      "type": "boolean"
+    },
+    "accountDeletionInApp": {
+      "type": "boolean"
+    },
+    "loginRequired": {
+      "type": "boolean"
+    },
+    "reviewerAccessProvided": {
+      "type": "boolean"
+    },
+    "digitalGoods": {
+      "type": "boolean"
+    },
+    "alternativeBillingEnrolled": {
+      "type": "boolean"
+    },
+    "containsAds": {
+      "type": "boolean"
+    },
+    "adsDeclarationReviewed": {
+      "type": "boolean"
+    },
+    "targetAudienceReviewed": {
+      "type": "boolean"
+    },
+    "contentRatingReviewed": {
+      "type": "boolean"
+    },
+    "nativeChecksReviewed": {
+      "type": "boolean"
+    },
+    "runtimeChecksReviewed": {
+      "type": "boolean"
+    },
+    "$schema": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "manifest": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "profile": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "privacyPolicyUrl": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "accountDeletionUrl": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "targetApiExtensionUntil": {
+      "type": "string",
+      "maxLength": 2000,
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "billingExtensionUntil": {
+      "type": "string",
+      "maxLength": 2000,
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "device": {
+      "enum": [
+        "mobile",
+        "wear",
+        "automotive",
+        "tv",
+        "xr"
+      ]
+    },
+    "submission": {
+      "enum": [
+        "new",
+        "update",
+        "existing"
+      ]
+    },
+    "markets": {
+      "type": "array",
+      "maxItems": 250,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
+    },
+    "listing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "shortDescription": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "fullDescription": {
+          "type": "string",
+          "maxLength": 20000
+        }
+      }
+    }
+  }
+}

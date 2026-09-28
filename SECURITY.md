@@ -1,23 +1,11 @@
-# Security Policy
+# Security
 
-## Scope
+The scanner is local-first and read-only. It never imports app.config.js, evaluates Gradle, runs package scripts, launches builds, queries Play Console, or uploads project source. Only `policy check --online` makes requests, to the bundled allowlisted official Google/Android sources. Redirects are not followed; source changes require human review.
 
-This repository contains **documentation and AI agent skill files only** — markdown, YAML, and text files. There is no executable code, server, or API integration.
+Input collection uses an allowlist of source/config extensions, skips dependency/build/test directories and hidden files, and does not follow symlinks. Credential files such as `.env`, `google-services.json`, `local.properties`, keystores and Firebase generated options are excluded. Limits: 6,000 directory entries, 1,000 eligible files, 2 MB per input, 20 MB cumulative content and 16 directory levels. Skipped/unreadable eligible inputs produce an incomplete-coverage result.
 
-## Reporting a Concern
+Reports contain selected normalized evidence and filenames, not raw source snippets or credential values. HTML/Markdown/terminal output and GitHub command properties are escaped. Report paths cannot traverse symlink directories. Supplied manifest XML rejects DTDs, external entities and malformed structure.
 
-If you believe a skill check or prompt in this repo could be misused to help developers violate Google Play policies rather than comply with them, please open a GitHub issue describing the concern.
+This is not a sandbox for running malicious code and not a full source-code security audit. Do not concurrently mutate files while scanning. Keep CI secrets away from untrusted builds, pin dependencies/actions, and review report artifacts before public sharing.
 
-For any other vulnerability reports related to this repository (e.g., a link pointing to a malicious URL, a prompt injection pattern in the skill files), please open a GitHub issue with the label `security`.
-
-## Out of Scope
-
-The following are not in scope for this project:
-
-- Vulnerabilities in Google Play itself — report those to Google via [Google's Vulnerability Reward Program](https://bughunters.google.com/about/rules/android-and-google-play)
-- Vulnerabilities in AI tools (Claude Code, GitHub Copilot, Cursor) — report those to their respective vendors
-- App-specific vulnerabilities in projects audited using this skill
-
-## Policy
-
-This project's skills and prompts are designed to help developers comply with Google Play Developer Program Policies. They must not be used to circumvent or work around those policies.
+Report security vulnerabilities through GitHub's private vulnerability reporting when available. Otherwise open an issue requesting a private contact without publishing exploit details, private app code, tokens, passwords or signing material.

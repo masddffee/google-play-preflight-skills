@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "dependencies": {
+    "react-native": "0.81.0",
+    "react-native-purchases": "9.0.0"
+  }
+}

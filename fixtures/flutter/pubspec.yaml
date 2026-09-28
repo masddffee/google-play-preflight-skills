@@ -1,0 +1,5 @@
+name: preflight_fixture
+dependencies:
+  flutter:
+    sdk: flutter
+  purchases_flutter: any

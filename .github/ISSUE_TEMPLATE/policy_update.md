@@ -1,33 +1,21 @@
 ---
-name: Policy Update
-about: Report that a Google Play policy has changed and a check needs updating
-title: "[Policy Update] CHECK-XX-YY: "
-labels: policy-update
-assignees: ''
+name: Policy update
+about: An official Google policy change affects a rule or manual guide
+title: '[Policy] '
+labels: enhancement
 ---
 
-## What Changed
+## Official source
 
-**Affected Check(s):** CHECK-XX-YY (replace with actual check ID)
-
-**Old policy / behavior:**
-<!-- Describe the previous requirement -->
-
-**New policy / behavior:**
-<!-- Describe the updated requirement -->
-
-**Official source:**
-<!-- Link to the official Google Play policy page or announcement -->
-
----
-
-## Suggested Update
-
-<!-- Optional: paste the updated check text using the template format from CONTRIBUTING.md -->
-
----
+## Change and applicability
+- Old and new requirement:
+- Effective date:
+- Device categories:
+- New apps / updates / existing availability:
+- Markets, programs, exemptions or granted extensions:
+- Affected rule IDs:
 
 ## Verification
-
-- [ ] I have verified this against the current official Google Play Developer Program Policies page
-- [ ] This is a Google Play policy, not an Android general quality guideline
+- [ ] The source is official Google or Android documentation.
+- [ ] Applicability and exceptions were reviewed, not just a page timestamp.
+- [ ] A boundary test and an ambiguous-input test are proposed.

@@ -1,0 +1,52 @@
+{
+  "name": "@masddffee/play-preflight",
+  "version": "1.0.0",
+  "description": "Local-first Google Play release checks with evidence, dated policies, and a GitHub Action.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "play-preflight": "bin/play-preflight.js"
+  },
+  "exports": {
+    ".": "./src/scan.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "rules/",
+    "skills/",
+    "action/",
+    "action.yml",
+    "README.md",
+    "LICENSE",
+    "schemas/"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "demo": "node scripts/demo.mjs",
+    "policy:check": "node bin/play-preflight.js policy check --online",
+    "prepack": "npm run check && npm test",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masddffee/google-play-preflight-skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/masddffee/google-play-preflight-skills/issues"
+  },
+  "keywords": [
+    "android",
+    "google-play",
+    "expo",
+    "react-native",
+    "flutter",
+    "preflight",
+    "github-action",
+    "agent-skill"
+  ]
+}
